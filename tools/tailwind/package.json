@@ -1,0 +1,22 @@
+{
+  "name": "@personal-finance-app/tailwind-config",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "clean": "git clean -xdf .cache .turbo node_modules",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint"
+  },
+  "exports": {
+    "./style.css": "./style.css"
+  },
+  "prettier": "@personal-finance-app/prettier-config",
+  "dependencies": {
+    "eslint": "catalog:",
+    "tailwindcss": "catalog:"
+  },
+  "devDependencies": {
+    "@personal-finance-app/eslint-config": "workspace:*",
+    "@personal-finance-app/prettier-config": "workspace:*"
+  }
+}
