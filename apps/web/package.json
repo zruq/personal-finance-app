@@ -18,11 +18,11 @@
     "typecheck": "tsc --build"
   },
   "dependencies": {
-    "@radix-ui/react-icons": "catalog:",
+    "@hookform/resolvers": "^5.0.1",
     "@personal-finance-app/auth": "workspace:*",
     "@personal-finance-app/ui": "workspace:*",
+    "@radix-ui/react-icons": "catalog:",
     "@tailwindcss/vite": "catalog:",
-    "@tanstack/react-form": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@tanstack/react-router": "catalog:",
     "@tanstack/router-devtools": "catalog:",
@@ -32,6 +32,7 @@
     "next-themes": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "react-hook-form": "^7.56.3",
     "sonner": "catalog:",
     "tailwindcss": "catalog:",
     "zod": "catalog:"

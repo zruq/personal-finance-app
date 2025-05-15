@@ -2,10 +2,10 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { createRouter as createTanstackRouter } from '@tanstack/react-router';
 import { createTRPCOptionsProxy } from '@trpc/tanstack-react-query';
 import type { AppRouter } from '@personal-finance-app/api/server';
+import { routeTree } from './routeTree.gen';
 import { queryClient } from '@/clients/queryClient';
 import { trpcClient } from '@/clients/trpcClient';
 import { env } from '@/env';
-import { routeTree } from './routeTree.gen';
 
 export const trpc = createTRPCOptionsProxy<AppRouter>({
   client: trpcClient,
