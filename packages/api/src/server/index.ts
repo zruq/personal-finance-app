@@ -13,14 +13,16 @@ export const appRouter = router({
 export const createApi = ({
   auth,
   db,
+  allowedAPIKeys,
 }: {
   auth: AuthInstance;
   db: DatabaseInstance;
+  allowedAPIKeys: string[];
 }) => {
   return {
     trpcRouter: appRouter,
     createTRPCContext: ({ headers }: { headers: Headers }) =>
-      createTRPCContextInternal({ auth, db, headers }),
+      createTRPCContextInternal({ auth, db, headers, allowedAPIKeys }),
   };
 };
 

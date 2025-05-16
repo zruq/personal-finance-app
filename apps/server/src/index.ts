@@ -22,7 +22,7 @@ const auth = createAuth({
   db,
   webUrl: env.PUBLIC_WEB_URL,
 });
-const api = createApi({ auth, db });
+const api = createApi({ auth, db, allowedAPIKeys: [env.INTERNAL_API_KEY] });
 
 const app = new Hono<{
   Variables: {

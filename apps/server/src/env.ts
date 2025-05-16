@@ -19,6 +19,8 @@ export const envSchema = z.object({
   SERVER_POSTGRES_URL: z.string(),
   // Frontend URL, used to configure trusted origin (CORS)
   PUBLIC_WEB_URL: z.string().url(),
+  // Used to do super user stuff like seeding data
+  INTERNAL_API_KEY: z.string(),
 });
 
 export const env = envSchema.parse(process.env);
