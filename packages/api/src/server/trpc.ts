@@ -2,6 +2,7 @@ import { initTRPC, TRPCError } from '@trpc/server';
 import SuperJSON from 'superjson';
 import type { AuthInstance } from '@personal-finance-app/auth/server';
 import type { DatabaseInstance } from '@personal-finance-app/db/client';
+import { env } from './env';
 
 export const createTRPCContext = async ({
   auth,
@@ -14,6 +15,7 @@ export const createTRPCContext = async ({
 }): Promise<{
   db: DatabaseInstance;
   session: AuthInstance['$Infer']['Session'] | null;
+  headers: Headers;
 }> => {
   const session = await auth.api.getSession({
     headers,
@@ -21,6 +23,7 @@ export const createTRPCContext = async ({
   return {
     db,
     session,
+    headers,
   };
 };
 
@@ -52,6 +55,17 @@ export const publicProcedure = t.procedure.use(timingMiddleware);
 
 export const protectedProcedure = publicProcedure.use(({ ctx, next }) => {
   if (!ctx.session?.user) {
+    throw new TRPCError({ code: 'FORBIDDEN' });
+  }
+  return next({
+    ctx: {
+      session: { ...ctx.session },
+    },
+  });
+});
+
+export const internalProcedure = publicProcedure.use(({ ctx, next }) => {
+  if (ctx.headers.get('x-api-key') !== env.INTERNAL_API_KEY) {
     throw new TRPCError({ code: 'FORBIDDEN' });
   }
   return next({

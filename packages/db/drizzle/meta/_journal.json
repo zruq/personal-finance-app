@@ -15,6 +15,20 @@
       "when": 1747167576704,
       "tag": "0001_lying_cloak",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1747342037867,
+      "tag": "0002_violet_natasha_romanoff",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1747425808968,
+      "tag": "0003_burly_hydra",
+      "breakpoints": true
     }
   ]
 }

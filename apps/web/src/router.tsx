@@ -1,3 +1,4 @@
+import { Spinner } from '@personal-finance-app/ui/components/spinner';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { createRouter as createTanstackRouter } from '@tanstack/react-router';
 import { createTRPCOptionsProxy } from '@trpc/tanstack-react-query';
@@ -18,8 +19,8 @@ export function createRouter() {
     basepath: env.PUBLIC_BASE_PATH,
     scrollRestoration: true,
     defaultPreload: 'intent',
-    defaultPendingComponent: () => <div>loading</div>,
-    Wrap: function WrapComponent({ children }) {
+    defaultPendingComponent: () => <Spinner />,
+    Wrap({ children }) {
       return (
         <QueryClientProvider client={queryClient}>
           {children}

@@ -6,7 +6,10 @@ import { timestamps, userId, themeId } from './columns.helper';
 export const budget = t.pgTable(
   'budget',
   {
-    id: t.bigint({ mode: 'number' }).generatedAlwaysAsIdentity().primaryKey(),
+    id: t
+      .bigint({ mode: 'number' })
+      .generatedByDefaultAsIdentity()
+      .primaryKey(),
     name: t.varchar({ length: 256 }).notNull(),
     maximumSpend: t.numeric({ mode: 'number' }).notNull(),
     userId,

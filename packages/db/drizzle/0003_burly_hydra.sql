@@ -1,0 +1,1 @@
+ALTER TABLE "theme" ADD CONSTRAINT "theme_name_unique" UNIQUE("name");

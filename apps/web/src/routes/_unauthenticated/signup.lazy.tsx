@@ -1,11 +1,11 @@
-import { authClient } from '@/clients/authClient';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from '@personal-finance-app/ui/components/button';
 import { Input } from '@personal-finance-app/ui/components/input';
 import { createLazyFileRoute, Link } from '@tanstack/react-router';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { PasswordInput } from './-components/password-input';
-import { Button } from '@personal-finance-app/ui/components/button';
+import { authClient } from '@/clients/authClient';
 
 export const Route = createLazyFileRoute('/_unauthenticated/signup')({
   component: RouteComponent,

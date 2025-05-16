@@ -1,6 +1,6 @@
 {
-  "id": "698be7e7-dfba-4e75-b43d-87028d978b0a",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "0bea481a-d25a-4436-bc4e-99ed72f508a1",
+  "prevId": "0c7720c6-76bb-498e-867a-b547ffbe7220",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -327,8 +327,8 @@
           "notNull": true,
           "default": "'other'"
         },
-        "party": {
-          "name": "party",
+        "party_id": {
+          "name": "party_id",
           "type": "bigint",
           "primaryKey": false,
           "notNull": true
@@ -383,11 +383,11 @@
         }
       },
       "foreignKeys": {
-        "transaction_party_party_id_fk": {
-          "name": "transaction_party_party_id_fk",
+        "transaction_party_id_party_id_fk": {
+          "name": "transaction_party_id_party_id_fk",
           "tableFrom": "transaction",
           "tableTo": "party",
-          "columnsFrom": ["party"],
+          "columnsFrom": ["party_id"],
           "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
@@ -441,7 +441,7 @@
           "primaryKey": true,
           "notNull": true,
           "identity": {
-            "type": "always",
+            "type": "byDefault",
             "name": "budget_id_seq",
             "schema": "public",
             "increment": "1",
@@ -729,7 +729,13 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "theme_name_unique": {
+          "name": "theme_name_unique",
+          "nullsNotDistinct": false,
+          "columns": ["name"]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

@@ -1,11 +1,13 @@
 import { desc, eq, sql, and } from '@personal-finance-app/db';
-import { protectedProcedure, router } from '../trpc';
 import {
   budget,
   theme,
   transaction,
   party,
 } from '@personal-finance-app/db/schema';
+import { TRPCError } from '@trpc/server';
+import { z } from 'zod';
+import { protectedProcedure, router } from '../trpc';
 
 const budgetRouter = router({
   all: protectedProcedure.query(async ({ ctx }) => {
@@ -81,6 +83,89 @@ const budgetRouter = router({
       .groupBy(budget.id)
       .orderBy(desc(budget.createdAt));
   }),
+  upsert: protectedProcedure
+    .input(
+      z.object({
+        id: z.number().int().min(1).optional(),
+        name: z.string(),
+        maximumSpend: z.number(),
+        themeId: z.number(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { maximumSpend, name, themeId, id } = input;
+      const result = await ctx.db
+        .insert(budget)
+        .values({
+          id,
+          maximumSpend,
+          name,
+          themeId,
+          userId: ctx.session.user.id,
+        })
+        .onConflictDoUpdate({
+          target: budget.id,
+          set: { maximumSpend, name, themeId },
+          setWhere: eq(budget.userId, ctx.session.user.id),
+        })
+        .returning({
+          id: budget.id,
+          name: budget.name,
+          maximumSpend: budget.maximumSpend,
+          theme: sql<{
+            id: number;
+            name: string;
+            color: string;
+          }>`
+      (
+        SELECT JSON_BUILD_OBJECT(
+          'id', ${theme.id},
+          'name', ${theme.name},
+          'color', ${theme.color}
+        )
+        FROM ${theme}
+        WHERE ${theme.id} = ${budget.themeId}
+        LIMIT 1
+      )`,
+        });
+      if (!result[0]) {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+      }
+      return result[0];
+    }),
+  delete: protectedProcedure
+    .input(z.object({ id: z.number().int().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      const result = await ctx.db
+        .delete(budget)
+        .where(
+          and(eq(budget.id, input.id), eq(budget.userId, ctx.session.user.id)),
+        )
+        .returning({
+          id: budget.id,
+          name: budget.name,
+          maximumSpend: budget.maximumSpend,
+          theme: sql<{
+            id: number;
+            name: string;
+            color: string;
+          }>`
+      (
+        SELECT JSON_BUILD_OBJECT(
+          'id', ${theme.id},
+          'name', ${theme.name},
+          'color', ${theme.color}
+        )
+        FROM ${theme}
+        WHERE ${theme.id} = ${budget.themeId}
+        LIMIT 1
+      )`,
+        });
+      if (!result[0]) {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+      }
+      return result[0];
+    }),
 });
 
 export default budgetRouter;

@@ -1,4 +1,6 @@
-import baseConfig, { restrictEnvAccess } from '@personal-finance-app/eslint-config/base';
+import baseConfig, {
+  restrictEnvAccess,
+} from '@personal-finance-app/eslint-config/base';
 
 /** @type {import('typescript-eslint').Config} */
 export default [

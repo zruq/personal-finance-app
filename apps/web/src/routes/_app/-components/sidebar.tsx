@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import { classNames } from '@personal-finance-app/ui/lib/utils';
 import { Link, type LinkProps } from '@tanstack/react-router';
-import HomeIcon from '../-icons/home.icon';
+import React, { useState } from 'react';
+import ArrowLeftIcon from '../-icons/arrow-left.icon';
 import ArrowUpDownIcon from '../-icons/arrow-up-down.icon';
+import HalfTicketIcon from '../-icons/half-ticket.icon';
+import HomeIcon from '../-icons/home.icon';
 import PieChartIcon from '../-icons/pie-chart.icon';
 import PotIcon from '../-icons/pot.icon';
-import HalfTicketIcon from '../-icons/half-ticket.icon';
-import { classNames } from '@personal-finance-app/ui/lib/utils';
-import ArrowLeftIcon from '../-icons/arrow-left.icon';
 
 const SIDEBAR_ITEMS: Array<{
   name: string;
@@ -58,7 +58,7 @@ export const SidebarMobileTablet = () => {
             {({ isActive }) => (
               <div
                 className={classNames(
-                  'group text-grey-300 rounded-t-lg border-grey-900 flex flex-col items-center border-b-4 px-[1.39rem] py-100 hover:text-white md:px-10',
+                  'group text-grey-300 rounded-t-lg border-grey-900 flex flex-col items-center border-b-4 px-[1.39rem] py-2 hover:text-white md:px-10',
                   {
                     'bg-beige-100 border-green text-grey-900 hover:text-grey-900':
                       isActive,

@@ -1,6 +1,6 @@
-import { authClient } from '@/clients/authClient';
 import { Card } from '@personal-finance-app/ui/components/card';
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { authClient } from '@/clients/authClient';
 
 export const Route = createFileRoute('/_unauthenticated')({
   component: UnauthenticatedLayout,
