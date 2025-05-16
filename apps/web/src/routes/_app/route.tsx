@@ -1,4 +1,3 @@
-import { Spinner } from '@personal-finance-app/ui/components/spinner';
 import { createFileRoute, Navigate, Outlet } from '@tanstack/react-router';
 import { Sidebar } from './-components/sidebar';
 import { authClient } from '@/clients/authClient';
@@ -12,8 +11,8 @@ function AppLayout() {
 
   if (isPending) {
     return (
-      <div className="w-screen h-screen flex items-center justify-center bg-red-500">
-        <Spinner />
+      <div className="w-screen h-screen flex items-center justify-center bg-grey-900">
+        <img src="/logo.svg" className="w-40" />
       </div>
     );
   }

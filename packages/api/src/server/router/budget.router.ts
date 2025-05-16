@@ -12,7 +12,7 @@ import { protectedProcedure, router } from '../trpc';
 const budgetRouter = router({
   all: protectedProcedure.query(async ({ ctx }) => {
     const userId = ctx.session.user.id;
-    return ctx.db
+    const data = await ctx.db
       .select({
         id: budget.id,
         name: budget.name,
@@ -32,13 +32,13 @@ const budgetRouter = router({
         WHERE ${theme.id} = ${budget.themeId}
         LIMIT 1
       )`,
-        spent: sql<number>`COALESCE(SUM(${transaction.amount}), 0)::float`,
+        spent: sql<number>`-1*COALESCE(SUM(${transaction.amount}), 0)::float`,
         latestSpending: sql<
           Array<{
             id: number;
             amount: number;
             date: Date;
-            party: {
+            party?: {
               id: number;
               name: string;
               avatar: string | null;
@@ -63,7 +63,7 @@ const budgetRouter = router({
           '[]'::JSON
         )
         FROM ${transaction} 
-        JOIN ${party} ON ${transaction.partyId} = ${party.id}
+        LEFT JOIN ${party} ON ${transaction.partyId} = ${party.id}
         WHERE ${transaction.budgetId} = ${budget.id}
         AND ${transaction.userId} = ${budget.userId}
         LIMIT 3
@@ -82,6 +82,10 @@ const budgetRouter = router({
       .where(eq(budget.userId, userId))
       .groupBy(budget.id)
       .orderBy(desc(budget.createdAt));
+    return data.map((budget) => ({
+      ...budget,
+      spent: budget.spent === -0 ? 0 : budget.spent,
+    }));
   }),
   upsert: protectedProcedure
     .input(

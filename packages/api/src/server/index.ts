@@ -4,10 +4,12 @@ import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 import budgetRouter from './router/budget.router';
 import themeRouter from './router/theme.router';
 import { createTRPCContext as createTRPCContextInternal, router } from './trpc';
+import potRouter from './router/pot.router';
 
 export const appRouter = router({
   budgets: budgetRouter,
   themes: themeRouter,
+  pots: potRouter,
 });
 
 export const createApi = ({

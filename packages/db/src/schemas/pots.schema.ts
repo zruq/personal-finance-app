@@ -6,7 +6,10 @@ import { timestamps, themeId, userId } from './columns.helper';
 export const pot = t.pgTable(
   'pot',
   {
-    id: t.bigint({ mode: 'number' }).generatedAlwaysAsIdentity().primaryKey(),
+    id: t
+      .bigint({ mode: 'number' })
+      .generatedByDefaultAsIdentity()
+      .primaryKey(),
     name: t.varchar({ length: 256 }).notNull(),
     target: t.numeric({ mode: 'number' }).notNull(),
     userId,

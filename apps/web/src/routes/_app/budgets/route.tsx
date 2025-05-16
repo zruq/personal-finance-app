@@ -16,7 +16,7 @@ export const Route = createFileRoute('/_app/budgets')({
 function RouteComponent() {
   const [showCreateBudget, setShowCreateBudget] = React.useState(false);
   const { data: budgets } = useSuspenseQuery(trpc.budgets.all.queryOptions());
-
+  const usedThemesIds = budgets.map((budget) => budget.theme.id);
   return (
     <div>
       <PageHeader
@@ -39,9 +39,7 @@ function RouteComponent() {
           {budgets.map((budget) => (
             <li key={budget.id}>
               <BudgetCard
-                usedThemesIds={budgets
-                  .map((budget) => budget.theme.id)
-                  .filter((id) => id !== budget.id)}
+                usedThemesIds={usedThemesIds.filter((id) => id !== budget.id)}
                 {...budget}
               />
             </li>
@@ -50,7 +48,7 @@ function RouteComponent() {
       </div>
 
       <CreateBudget
-        usedThemesIds={budgets.map((budget) => budget.theme.id)}
+        usedThemesIds={usedThemesIds}
         open={showCreateBudget}
         onOpenChange={setShowCreateBudget}
       />

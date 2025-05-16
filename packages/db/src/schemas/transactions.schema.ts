@@ -17,13 +17,18 @@ export const transaction = t.pgTable(
   {
     id: t.bigint({ mode: 'number' }).generatedAlwaysAsIdentity().primaryKey(),
     amount: t.numeric({ mode: 'number' }).notNull(),
-    type: transactionType().notNull().default('other'),
-    partyId: t
-      .bigint({ mode: 'number' })
-      .references(() => party.id)
-      .notNull(),
-    budgetId: t.integer().references(() => budget.id),
-    potId: t.integer().references(() => pot.id),
+    type: transactionType()
+      .notNull()
+      .generatedAlwaysAs(
+        () => sql` CASE 
+    WHEN budget_id IS NOT NULL THEN 'budget'::transaction_type
+    WHEN pot_id IS NOT NULL THEN 'pot'::transaction_type
+    ELSE 'other'::transaction_type
+  END`,
+      ),
+    partyId: t.bigint({ mode: 'number' }).references(() => party.id),
+    budgetId: t.integer().references(() => budget.id, { onDelete: 'set null' }),
+    potId: t.integer().references(() => pot.id, { onDelete: 'cascade' }),
     userId,
     ...timestamps,
   },
@@ -31,7 +36,9 @@ export const transaction = t.pgTable(
     t.index().on(party.userId),
     t.check(
       'type_check',
-      sql`(type = 'budget' AND budget_id is not null AND pot_id is null) OR (type = 'pot' AND pot_id is not null AND budget_id is null) OR (type NOT IN ('budget', 'pot') AND budget_id is null AND pot_id is null)`,
+      sql`(budget_id IS NOT NULL AND pot_id IS NULL) OR
+  (pot_id IS NOT NULL AND budget_id IS NULL) OR
+  (budget_id IS NULL AND pot_id IS NULL)`,
     ),
   ],
 );
