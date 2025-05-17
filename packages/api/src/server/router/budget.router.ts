@@ -10,6 +10,21 @@ import { z } from 'zod';
 import { protectedProcedure, router } from '../trpc';
 
 const budgetRouter = router({
+  list: protectedProcedure.query(async ({ ctx }) => {
+    const userId = ctx.session.user.id;
+    return ctx.db.query.budget.findMany({
+      columns: {
+        id: true,
+        name: true,
+      },
+      where: eq(budget.userId, userId),
+      with: {
+        theme: {
+          columns: { id: true, name: true, color: true },
+        },
+      },
+    });
+  }),
   all: protectedProcedure.query(async ({ ctx }) => {
     const userId = ctx.session.user.id;
     const data = await ctx.db
@@ -51,14 +66,14 @@ const budgetRouter = router({
             JSON_BUILD_OBJECT(
               'id', ${transaction.id},
               'amount', ${transaction.amount},
-              'date', ${transaction.createdAt},
+              'date', ${transaction.date},
               'party', JSON_BUILD_OBJECT(
                 'id', ${party.id},
                 'name', ${party.name},
                 'avatar', ${party.avatar}
               )
             )
-            ORDER BY ${transaction.createdAt} DESC
+            ORDER BY ${transaction.date} DESC
           ),
           '[]'::JSON
         )
@@ -84,7 +99,7 @@ const budgetRouter = router({
       .orderBy(desc(budget.createdAt));
     return data.map((budget) => ({
       ...budget,
-      spent: budget.spent === -0 ? 0 : budget.spent,
+      spent: Object.is(budget.spent, -0) ? 0 : budget.spent,
     }));
   }),
   upsert: protectedProcedure

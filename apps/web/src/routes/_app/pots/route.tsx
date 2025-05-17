@@ -14,7 +14,6 @@ export const Route = createFileRoute('/_app/pots')({
 
 function RouteComponent() {
   const { data: pots } = useSuspenseQuery(trpc.pots.all.queryOptions());
-  console.log('pots', pots);
   const [showCreatePot, setShowCreatePot] = React.useState(false);
   const usedThemesIds = pots.map((pot) => pot.id);
   return (

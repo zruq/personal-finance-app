@@ -15,7 +15,13 @@ export const transactionType = t.pgEnum('transaction_type', [
 export const transaction = t.pgTable(
   'transaction',
   {
-    id: t.bigint({ mode: 'number' }).generatedAlwaysAsIdentity().primaryKey(),
+    id: t
+      .bigint({ mode: 'number' })
+      .generatedByDefaultAsIdentity()
+      .primaryKey(),
+    category: t.varchar({ length: 128 }).notNull(),
+    description: t.varchar(),
+    date: t.timestamp().notNull(),
     amount: t.numeric({ mode: 'number' }).notNull(),
     type: transactionType()
       .notNull()

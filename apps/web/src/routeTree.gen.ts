@@ -16,9 +16,9 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as UnauthenticatedRouteImport } from './routes/_unauthenticated/route'
 import { Route as AppRouteImport } from './routes/_app/route'
 import { Route as AppIndexImport } from './routes/_app/index'
+import { Route as AppTransactionsRouteImport } from './routes/_app/transactions/route'
 import { Route as AppPotsRouteImport } from './routes/_app/pots/route'
 import { Route as AppBudgetsRouteImport } from './routes/_app/budgets/route'
-import { Route as AppTransactionsIndexImport } from './routes/_app/transactions/index'
 import { Route as AppRecurringBillsIndexImport } from './routes/_app/recurring-bills/index'
 
 // Create Virtual Routes
@@ -64,6 +64,12 @@ const UnauthenticatedLoginLazyRoute = UnauthenticatedLoginLazyImport.update({
   import('./routes/_unauthenticated/login.lazy').then((d) => d.Route),
 )
 
+const AppTransactionsRouteRoute = AppTransactionsRouteImport.update({
+  id: '/transactions',
+  path: '/transactions',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
 const AppPotsRouteRoute = AppPotsRouteImport.update({
   id: '/pots',
   path: '/pots',
@@ -73,12 +79,6 @@ const AppPotsRouteRoute = AppPotsRouteImport.update({
 const AppBudgetsRouteRoute = AppBudgetsRouteImport.update({
   id: '/budgets',
   path: '/budgets',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-
-const AppTransactionsIndexRoute = AppTransactionsIndexImport.update({
-  id: '/transactions/',
-  path: '/transactions/',
   getParentRoute: () => AppRouteRoute,
 } as any)
 
@@ -120,6 +120,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPotsRouteImport
       parentRoute: typeof AppRouteImport
     }
+    '/_app/transactions': {
+      id: '/_app/transactions'
+      path: '/transactions'
+      fullPath: '/transactions'
+      preLoaderRoute: typeof AppTransactionsRouteImport
+      parentRoute: typeof AppRouteImport
+    }
     '/_unauthenticated/login': {
       id: '/_unauthenticated/login'
       path: '/login'
@@ -148,13 +155,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRecurringBillsIndexImport
       parentRoute: typeof AppRouteImport
     }
-    '/_app/transactions/': {
-      id: '/_app/transactions/'
-      path: '/transactions'
-      fullPath: '/transactions'
-      preLoaderRoute: typeof AppTransactionsIndexImport
-      parentRoute: typeof AppRouteImport
-    }
   }
 }
 
@@ -163,17 +163,17 @@ declare module '@tanstack/react-router' {
 interface AppRouteRouteChildren {
   AppBudgetsRouteRoute: typeof AppBudgetsRouteRoute
   AppPotsRouteRoute: typeof AppPotsRouteRoute
+  AppTransactionsRouteRoute: typeof AppTransactionsRouteRoute
   AppIndexRoute: typeof AppIndexRoute
   AppRecurringBillsIndexRoute: typeof AppRecurringBillsIndexRoute
-  AppTransactionsIndexRoute: typeof AppTransactionsIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppBudgetsRouteRoute: AppBudgetsRouteRoute,
   AppPotsRouteRoute: AppPotsRouteRoute,
+  AppTransactionsRouteRoute: AppTransactionsRouteRoute,
   AppIndexRoute: AppIndexRoute,
   AppRecurringBillsIndexRoute: AppRecurringBillsIndexRoute,
-  AppTransactionsIndexRoute: AppTransactionsIndexRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
@@ -197,22 +197,22 @@ export interface FileRoutesByFullPath {
   '': typeof UnauthenticatedRouteRouteWithChildren
   '/budgets': typeof AppBudgetsRouteRoute
   '/pots': typeof AppPotsRouteRoute
+  '/transactions': typeof AppTransactionsRouteRoute
   '/login': typeof UnauthenticatedLoginLazyRoute
   '/signup': typeof UnauthenticatedSignupLazyRoute
   '/': typeof AppIndexRoute
   '/recurring-bills': typeof AppRecurringBillsIndexRoute
-  '/transactions': typeof AppTransactionsIndexRoute
 }
 
 export interface FileRoutesByTo {
   '': typeof UnauthenticatedRouteRouteWithChildren
   '/budgets': typeof AppBudgetsRouteRoute
   '/pots': typeof AppPotsRouteRoute
+  '/transactions': typeof AppTransactionsRouteRoute
   '/login': typeof UnauthenticatedLoginLazyRoute
   '/signup': typeof UnauthenticatedSignupLazyRoute
   '/': typeof AppIndexRoute
   '/recurring-bills': typeof AppRecurringBillsIndexRoute
-  '/transactions': typeof AppTransactionsIndexRoute
 }
 
 export interface FileRoutesById {
@@ -221,11 +221,11 @@ export interface FileRoutesById {
   '/_unauthenticated': typeof UnauthenticatedRouteRouteWithChildren
   '/_app/budgets': typeof AppBudgetsRouteRoute
   '/_app/pots': typeof AppPotsRouteRoute
+  '/_app/transactions': typeof AppTransactionsRouteRoute
   '/_unauthenticated/login': typeof UnauthenticatedLoginLazyRoute
   '/_unauthenticated/signup': typeof UnauthenticatedSignupLazyRoute
   '/_app/': typeof AppIndexRoute
   '/_app/recurring-bills/': typeof AppRecurringBillsIndexRoute
-  '/_app/transactions/': typeof AppTransactionsIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -234,32 +234,32 @@ export interface FileRouteTypes {
     | ''
     | '/budgets'
     | '/pots'
+    | '/transactions'
     | '/login'
     | '/signup'
     | '/'
     | '/recurring-bills'
-    | '/transactions'
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
     | '/budgets'
     | '/pots'
+    | '/transactions'
     | '/login'
     | '/signup'
     | '/'
     | '/recurring-bills'
-    | '/transactions'
   id:
     | '__root__'
     | '/_app'
     | '/_unauthenticated'
     | '/_app/budgets'
     | '/_app/pots'
+    | '/_app/transactions'
     | '/_unauthenticated/login'
     | '/_unauthenticated/signup'
     | '/_app/'
     | '/_app/recurring-bills/'
-    | '/_app/transactions/'
   fileRoutesById: FileRoutesById
 }
 
@@ -292,9 +292,9 @@ export const routeTree = rootRoute
       "children": [
         "/_app/budgets",
         "/_app/pots",
+        "/_app/transactions",
         "/_app/",
-        "/_app/recurring-bills/",
-        "/_app/transactions/"
+        "/_app/recurring-bills/"
       ]
     },
     "/_unauthenticated": {
@@ -312,6 +312,10 @@ export const routeTree = rootRoute
       "filePath": "_app/pots/route.tsx",
       "parent": "/_app"
     },
+    "/_app/transactions": {
+      "filePath": "_app/transactions/route.tsx",
+      "parent": "/_app"
+    },
     "/_unauthenticated/login": {
       "filePath": "_unauthenticated/login.lazy.tsx",
       "parent": "/_unauthenticated"
@@ -326,10 +330,6 @@ export const routeTree = rootRoute
     },
     "/_app/recurring-bills/": {
       "filePath": "_app/recurring-bills/index.tsx",
-      "parent": "/_app"
-    },
-    "/_app/transactions/": {
-      "filePath": "_app/transactions/index.tsx",
       "parent": "/_app"
     }
   }

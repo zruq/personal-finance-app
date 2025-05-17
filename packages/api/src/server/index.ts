@@ -5,11 +5,15 @@ import budgetRouter from './router/budget.router';
 import themeRouter from './router/theme.router';
 import { createTRPCContext as createTRPCContextInternal, router } from './trpc';
 import potRouter from './router/pot.router';
+import transactionRouter from './router/transaction.router';
+import partyRouter from './router/party.router';
 
 export const appRouter = router({
   budgets: budgetRouter,
   themes: themeRouter,
   pots: potRouter,
+  transactions: transactionRouter,
+  parties: partyRouter,
 });
 
 export const createApi = ({

@@ -92,20 +92,18 @@ const potRouter = router({
   delete: protectedProcedure
     .input(z.object({ id: z.number().int().min(1) }))
     .mutation(async ({ ctx, input }) => {
-      try {
-        console.log('ctx.session.user.id', ctx.session.user.id);
-        const result = await ctx.db
-          .delete(pot)
-          .where(and(eq(pot.id, input.id), eq(pot.userId, ctx.session.user.id)))
-          .returning({
-            id: pot.id,
-            name: pot.name,
-            target: pot.target,
-            theme: sql<{
-              id: number;
-              name: string;
-              color: string;
-            }>`
+      const result = await ctx.db
+        .delete(pot)
+        .where(and(eq(pot.id, input.id), eq(pot.userId, ctx.session.user.id)))
+        .returning({
+          id: pot.id,
+          name: pot.name,
+          target: pot.target,
+          theme: sql<{
+            id: number;
+            name: string;
+            color: string;
+          }>`
       (
         SELECT JSON_BUILD_OBJECT(
           'id', ${theme.id},
@@ -116,17 +114,12 @@ const potRouter = router({
         WHERE ${theme.id} = ${pot.themeId}
         LIMIT 1
       )`,
-          });
+        });
 
-        console.log(result, 'result');
-        if (!result[0]) {
-          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
-        }
-        return result[0];
-      } catch (e) {
-        console.log(e, 'e');
-        throw e;
+      if (!result[0]) {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
       }
+      return result[0];
     }),
   addTo: protectedProcedure
     .input(z.object({ potId: z.number(), amount: z.number() }))
@@ -136,6 +129,15 @@ const potRouter = router({
           code: 'BAD_REQUEST',
           message: 'Please enter a valid amount',
         });
+      }
+      const targetPot = await ctx.db.query.pot.findFirst({
+        where: and(eq(pot.id, potId), eq(pot.userId, ctx.session.user.id)),
+        columns: {
+          name: true,
+        },
+      });
+      if (!targetPot) {
+        throw new TRPCError({ code: 'NOT_FOUND' });
       }
       if (amount > 0) {
         const data = await ctx.db
@@ -158,22 +160,18 @@ const potRouter = router({
       if (amount < 0) {
         const data = await ctx.db
           .select({
-            id: pot.id,
-            name: pot.name,
             totalSaved: sql<number>`COALESCE(SUM(${transaction.amount}), 0)::float`,
           })
-          .from(pot)
-          .leftJoin(transaction, eq(transaction.potId, pot.id))
-          .groupBy(pot.id)
-          .where(eq(pot.userId, ctx.session.user.id));
+          .from(transaction)
+          .where(eq(transaction.potId, potId));
         if (!data[0]) {
           throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
         }
-        const { name, totalSaved } = data[0];
+        const { totalSaved } = data[0];
         if (Math.abs(totalSaved) < Math.abs(amount)) {
           throw new TRPCError({
             code: 'BAD_REQUEST',
-            message: `The maximum amount you can withdraw from pot ${name} is ${totalSaved}`,
+            message: `The maximum amount you can withdraw from pot ${targetPot.name} is ${totalSaved}`,
           });
         }
       }
@@ -181,6 +179,8 @@ const potRouter = router({
         potId,
         amount: -1 * amount,
         userId: ctx.session.user.id,
+        date: new Date(),
+        category: `${targetPot.name} (${amount > 0 ? 'Savings' : 'Withdraws'})`,
       });
     }),
 });

@@ -18,7 +18,7 @@ function AppLayout() {
   }
 
   if (!session?.user) {
-    return <Navigate to="/" />;
+    return <Navigate to="/login" />;
   }
   return (
     <main className="flex h-dvh w-dvw flex-col overflow-x-hidden xl:flex-row-reverse">

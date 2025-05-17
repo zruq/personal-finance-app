@@ -128,7 +128,7 @@ export default function BudgetCard({
                         alt={transaction.party?.name ?? 'Unknown'}
                       />
                       <AvatarFallback>
-                        {transaction.party?.name.slice(0, 2) ?? 'Un'}
+                        {transaction.party?.name?.slice(0, 2) ?? 'Un'}
                       </AvatarFallback>
                     </Avatar>
                     <p className="text-preset-5 font-bold">
