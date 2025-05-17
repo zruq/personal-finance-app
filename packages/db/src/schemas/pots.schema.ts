@@ -18,10 +18,3 @@ export const pot = t.pgTable(
   },
   (pot) => [t.unique().on(pot.userId, pot.name)],
 );
-
-export const CreatePotSchema = createInsertSchema(pot)
-  .omit({ createdAt: true, userId: true, updatedAt: true })
-  .extend({
-    name: z.string().max(256),
-    maximumSpend: z.number().min(0),
-  });

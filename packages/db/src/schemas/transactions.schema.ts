@@ -1,10 +1,11 @@
-import { sql } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
 import * as t from 'drizzle-orm/pg-core';
 import { createInsertSchema } from 'drizzle-zod';
 import { budget } from './budgets.schema';
 import { timestamps, userId } from './columns.helper';
 import { party } from './parties.schema';
 import { pot } from './pots.schema';
+import { user } from './auth';
 
 export const transactionType = t.pgEnum('transaction_type', [
   'budget',
@@ -49,6 +50,18 @@ export const transaction = t.pgTable(
   ],
 );
 
-export const CreateTransactionSchema = createInsertSchema(transaction)
-  .omit({ createdAt: true, userId: true, updatedAt: true })
-  .extend({});
+export const transactionRelations = relations(transaction, ({ one }) => ({
+  owner: one(user, { fields: [transaction.userId], references: [user.id] }),
+  budget: one(budget, {
+    fields: [transaction.budgetId],
+    references: [budget.id],
+  }),
+  pot: one(pot, {
+    fields: [transaction.potId],
+    references: [pot.id],
+  }),
+  party: one(party, {
+    fields: [transaction.partyId],
+    references: [party.id],
+  }),
+}));

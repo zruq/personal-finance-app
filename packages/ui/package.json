@@ -18,6 +18,14 @@
     "./components/*": {
       "types": "./dist/src/components/*.d.ts",
       "default": "./src/components/*.tsx"
+    },
+    "./icons/*": {
+      "types": "./dist/src/icons/*.d.ts",
+      "default": "./src/icons/*.tsx"
+    },
+    "./hooks/*": {
+      "types": "./dist/src/hooks/*.d.ts",
+      "default": "./src/hooks/*.ts"
     }
   },
   "scripts": {

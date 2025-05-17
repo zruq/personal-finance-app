@@ -15,7 +15,13 @@ export default function CreateTransaction({
 }: CreateTransactionProps) {
   const queryClient = useQueryClient();
   const { mutateAsync } = useMutation(
-    trpc.transactions.upsert.mutationOptions(),
+    trpc.transactions.upsert.mutationOptions({
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: trpc.transactions.many.queryKey(),
+        });
+      },
+    }),
   );
 
   return (

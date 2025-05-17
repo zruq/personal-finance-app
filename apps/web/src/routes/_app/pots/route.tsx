@@ -8,11 +8,11 @@ import PotCard from './-components/pot-card';
 import CreatePot from './-components/create-pot';
 
 export const Route = createFileRoute('/_app/pots')({
-  component: RouteComponent,
+  component: PotsPage,
   loader: () => queryClient.ensureQueryData(trpc.pots.all.queryOptions()),
 });
 
-function RouteComponent() {
+function PotsPage() {
   const { data: pots } = useSuspenseQuery(trpc.pots.all.queryOptions());
   const [showCreatePot, setShowCreatePot] = React.useState(false);
   const usedThemesIds = pots.map((pot) => pot.id);
