@@ -1,11 +1,11 @@
-import { useId, useState } from 'react';
+import * as LabelPrimitive from '@radix-ui/react-label';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
-import { Popover, PopoverContent, PopoverTrigger } from '#/components/popover';
+import { useId, useState } from 'react';
 import { Button } from './button';
-import { classNames } from '#/lib/utils';
 import { Calendar } from './calendar';
-import * as LabelPrimitive from '@radix-ui/react-label';
+import { Popover, PopoverContent, PopoverTrigger } from '#/components/popover';
+import { classNames } from '#/lib/utils';
 
 type DatePickerProps = {
   label: string;

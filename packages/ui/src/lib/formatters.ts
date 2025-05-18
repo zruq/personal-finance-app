@@ -10,8 +10,8 @@ const decimalFormatter = new Intl.NumberFormat('en-US', {
   currency: 'USD',
 });
 
-export function formatCurrency(value: number) {
-  return Number.isInteger(value)
+export function formatCurrency(value: number, decimal = true) {
+  return !decimal
     ? integerFormatter.format(value)
     : decimalFormatter.format(value);
 }

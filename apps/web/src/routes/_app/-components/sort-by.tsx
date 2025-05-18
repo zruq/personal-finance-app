@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {
   Select,
   SelectContent,
@@ -8,10 +7,21 @@ import {
   SelectValue,
   SelectSeparator,
 } from '@personal-finance-app/ui/components/select';
-import { useNavigate } from '@tanstack/react-router';
-import { Route, sortByValues } from '../route';
 import { useWindowSize } from '@personal-finance-app/ui/hooks/use-window-size';
 import SortIcon from '@personal-finance-app/ui/icons/sort.icon';
+import { useNavigate } from '@tanstack/react-router';
+import * as React from 'react';
+
+export const sortByValues = [
+  'latest',
+  'oldest',
+  'atoz',
+  'ztoa',
+  'highest',
+  'lowest',
+] as const;
+
+export type SortByValue = (typeof sortByValues)[number];
 
 const SORT_BY_LABELS = {
   latest: 'Latest',
@@ -22,9 +32,12 @@ const SORT_BY_LABELS = {
   lowest: 'Lowest',
 };
 
-export default function SortBy() {
-  const navigate = useNavigate({ from: Route.fullPath });
-  const { sortBy } = Route.useSearch();
+export default function SortBy({
+  sortBy,
+}: {
+  sortBy: keyof typeof SORT_BY_LABELS;
+}) {
+  const navigate = useNavigate();
   const { width } = useWindowSize();
   return (
     <div className="flex items-center gap-x-2">
@@ -39,6 +52,7 @@ export default function SortBy() {
         value={sortBy}
         onValueChange={(value) => {
           navigate({
+            to: '.',
             search: (prev) => ({ ...prev, sortBy: value }),
           });
         }}

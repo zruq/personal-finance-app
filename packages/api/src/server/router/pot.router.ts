@@ -1,8 +1,8 @@
 import { desc, eq, sql, and } from '@personal-finance-app/db';
 import { pot, theme, transaction } from '@personal-finance-app/db/schema';
-import { protectedProcedure, router } from '../trpc';
-import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
+import { z } from 'zod';
+import { protectedProcedure, router } from '../trpc';
 
 const potRouter = router({
   all: protectedProcedure.query(async ({ ctx }) => {
@@ -27,7 +27,7 @@ const potRouter = router({
         WHERE ${theme.id} = ${pot.themeId}
         LIMIT 1
       )`,
-        totalSaved: sql<number>`-1*COALESCE(SUM(${transaction.amount}), 0)::float`,
+        totalSaved: sql<number>`ABS(COALESCE(SUM(${transaction.amount}), 0))::float`,
       })
       .from(pot)
       .innerJoin(theme, eq(pot.themeId, theme.id))
@@ -146,10 +146,7 @@ const potRouter = router({
           })
           .from(transaction)
           .where(eq(transaction.userId, ctx.session.user.id));
-        if (!data[0]) {
-          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
-        }
-        const balance = data[0].balance;
+        const balance = data?.[0]?.balance ?? 0;
         if (balance < amount) {
           throw new TRPCError({
             code: 'BAD_REQUEST',
@@ -164,10 +161,8 @@ const potRouter = router({
           })
           .from(transaction)
           .where(eq(transaction.potId, potId));
-        if (!data[0]) {
-          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
-        }
-        const { totalSaved } = data[0];
+
+        const totalSaved = data?.[0]?.totalSaved ?? 0;
         if (Math.abs(totalSaved) < Math.abs(amount)) {
           throw new TRPCError({
             code: 'BAD_REQUEST',

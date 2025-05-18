@@ -108,9 +108,9 @@ const transactionRouter = router({
             case 'ztoa':
               return desc(transaction.category);
             case 'highest':
-              return desc(transaction.amount);
+              return sql`abs(${transaction.amount}) desc`;
             case 'lowest':
-              return asc(transaction.amount);
+              return sql`abs(${transaction.amount}) asc`;
           }
         })();
 
@@ -165,6 +165,22 @@ const transactionRouter = router({
       })
       .from(transaction)
       .where(eq(transaction.userId, userId));
+  }),
+  balance: protectedProcedure.query(async ({ ctx }) => {
+    const userId = ctx.session.user.id;
+    const data = await ctx.db
+      .select({
+        balance: sql<number>`sum(amount)::float`,
+        income: sql<number>`sum(case when amount > 0 then amount else 0 end)::float`,
+        expenses: sql<number>`sum(case when amount < 0 then amount else 0 end)::float`,
+      })
+      .from(transaction)
+      .where(eq(transaction.userId, userId));
+    return {
+      balance: data?.[0]?.balance ?? 0,
+      income: data?.[0]?.income ?? 0,
+      expenses: -1 * (data?.[0]?.expenses ?? -0),
+    };
   }),
 });
 

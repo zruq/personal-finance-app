@@ -1,6 +1,6 @@
-import type { RouterOutputs } from '@personal-finance-app/api/server';
 import { formatCurrency } from '@personal-finance-app/ui/lib/formatters';
 import { classNames } from '@personal-finance-app/ui/lib/utils';
+import type { RouterOutputs } from '@personal-finance-app/api/server';
 
 type ProgressProps = {
   totalValue: number;

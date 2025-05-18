@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { trpc } from '@/router';
 import { Dialog } from '@personal-finance-app/ui/components/dialog';
+import { useMutation } from '@tanstack/react-query';
+import * as React from 'react';
 import UpsertPot from './upsert-pot.form';
+import { trpc } from '@/router';
 
 type CreatePotProps = {
   open: boolean;

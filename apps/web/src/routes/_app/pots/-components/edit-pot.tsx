@@ -1,8 +1,8 @@
-import { trpc } from '@/router';
-import type { RouterOutputs } from '@personal-finance-app/api/server';
 import { Dialog } from '@personal-finance-app/ui/components/dialog';
 import { useMutation } from '@tanstack/react-query';
+import type { RouterOutputs } from '@personal-finance-app/api/server';
 import UpsertPot from './upsert-pot.form';
+import { trpc } from '@/router';
 
 type EditPotProps = {
   open: boolean;

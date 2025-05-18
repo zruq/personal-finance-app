@@ -3,7 +3,7 @@ import useDebounce from '@personal-finance-app/ui/hooks/use-debounce';
 import SearchIcon from '@personal-finance-app/ui/icons/search.icon';
 import { useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
-import { Route } from '../route';
+import { Route } from '..';
 
 export default function Search() {
   const [search, setSearch] = React.useState('');
@@ -22,9 +22,9 @@ export default function Search() {
   }, [searchParams.search]);
   return (
     <Input
-      label="Search transaction"
+      label="Search bills"
       hideLabel
-      placeholder="Search transaction"
+      placeholder="Search bills"
       value={search}
       onChange={(e) => setSearch(e.target.value)}
       suffixNode={<SearchIcon className="fill-grey-900 h-4 w-4" />}

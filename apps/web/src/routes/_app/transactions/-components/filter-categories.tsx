@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {
   Select,
   SelectContent,
@@ -8,13 +7,14 @@ import {
   SelectValue,
   SelectSeparator,
 } from '@personal-finance-app/ui/components/select';
-import { useNavigate } from '@tanstack/react-router';
-import { Route } from '../route';
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
-import FilterIcon from '@personal-finance-app/ui/icons/filter.icon';
-import { trpc } from '@/router';
 import { useWindowSize } from '@personal-finance-app/ui/hooks/use-window-size';
+import FilterIcon from '@personal-finance-app/ui/icons/filter.icon';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
+import * as React from 'react';
 import { QueryResult } from '../../-components/query-result';
+import { Route } from '../route';
+import { trpc } from '@/router';
 
 export default function FilterCategories() {
   const navigate = useNavigate({ from: Route.fullPath });

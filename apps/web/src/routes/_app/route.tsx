@@ -22,7 +22,7 @@ function AppLayout() {
   }
   return (
     <main className="flex h-dvh w-dvw flex-col overflow-x-hidden xl:flex-row-reverse">
-      <div className="h-full flex-1 overflow-y-auto px-4 py-6">
+      <div className="h-full flex-1 overflow-y-auto px-4 py-6 md:px-10 md:py-8">
         <Outlet />
       </div>
       <Sidebar />

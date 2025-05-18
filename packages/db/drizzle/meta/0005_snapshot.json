@@ -93,12 +93,8 @@
           "name": "account_user_id_user_id_fk",
           "tableFrom": "account",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -168,12 +164,8 @@
           "name": "session_user_id_user_id_fk",
           "tableFrom": "session",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -183,9 +175,7 @@
         "session_token_unique": {
           "name": "session_token_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "token"
-          ]
+          "columns": ["token"]
         }
       },
       "policies": {},
@@ -246,9 +236,7 @@
         "user_email_unique": {
           "name": "user_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -420,12 +408,8 @@
           "name": "transaction_party_id_party_id_fk",
           "tableFrom": "transaction",
           "tableTo": "party",
-          "columnsFrom": [
-            "party_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["party_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -433,12 +417,8 @@
           "name": "transaction_budget_id_budget_id_fk",
           "tableFrom": "transaction",
           "tableTo": "budget",
-          "columnsFrom": [
-            "budget_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["budget_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -446,12 +426,8 @@
           "name": "transaction_pot_id_pot_id_fk",
           "tableFrom": "transaction",
           "tableTo": "pot",
-          "columnsFrom": [
-            "pot_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["pot_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -459,12 +435,8 @@
           "name": "transaction_user_id_user_id_fk",
           "tableFrom": "transaction",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -545,12 +517,8 @@
           "name": "budget_user_id_user_id_fk",
           "tableFrom": "budget",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -558,12 +526,8 @@
           "name": "budget_theme_id_theme_id_fk",
           "tableFrom": "budget",
           "tableTo": "theme",
-          "columnsFrom": [
-            "theme_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["theme_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -573,10 +537,7 @@
         "budget_userId_name_unique": {
           "name": "budget_userId_name_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "user_id",
-            "name"
-          ]
+          "columns": ["user_id", "name"]
         }
       },
       "policies": {},
@@ -642,12 +603,8 @@
           "name": "party_user_id_user_id_fk",
           "tableFrom": "party",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -657,10 +614,7 @@
         "party_userId_name_unique": {
           "name": "party_userId_name_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "user_id",
-            "name"
-          ]
+          "columns": ["user_id", "name"]
         }
       },
       "policies": {},
@@ -732,12 +686,8 @@
           "name": "pot_user_id_user_id_fk",
           "tableFrom": "pot",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -745,12 +695,8 @@
           "name": "pot_theme_id_theme_id_fk",
           "tableFrom": "pot",
           "tableTo": "theme",
-          "columnsFrom": [
-            "theme_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["theme_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -760,10 +706,7 @@
         "pot_userId_name_unique": {
           "name": "pot_userId_name_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "user_id",
-            "name"
-          ]
+          "columns": ["user_id", "name"]
         }
       },
       "policies": {},
@@ -811,9 +754,7 @@
         "theme_name_unique": {
           "name": "theme_name_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "name"
-          ]
+          "columns": ["name"]
         }
       },
       "policies": {},
@@ -825,11 +766,7 @@
     "public.transaction_type": {
       "name": "transaction_type",
       "schema": "public",
-      "values": [
-        "budget",
-        "pot",
-        "other"
-      ]
+      "values": ["budget", "pot", "other"]
     }
   },
   "schemas": {},

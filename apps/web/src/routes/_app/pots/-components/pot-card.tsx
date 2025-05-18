@@ -1,13 +1,13 @@
-import type { RouterOutputs } from '@personal-finance-app/api/server';
+import { Button } from '@personal-finance-app/ui/components/button';
 import { Card } from '@personal-finance-app/ui/components/card';
 import { DropdownMenu } from '@personal-finance-app/ui/components/dropdown';
 import * as React from 'react';
+import type { RouterOutputs } from '@personal-finance-app/api/server';
 import EllipsisIcon from '../../-icons/ellipsis.icon';
-import { Button } from '@personal-finance-app/ui/components/button';
-import Progress from './progress';
-import EditPot from './edit-pot';
-import DeletePot from './delete-pot';
 import AddToPot from './add-to-pot';
+import DeletePot from './delete-pot';
+import EditPot from './edit-pot';
+import Progress from './progress';
 
 type Pot = RouterOutputs['pots']['all'][number];
 

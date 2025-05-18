@@ -1,8 +1,8 @@
-import { trpc } from '@/router';
 import { Button } from '@personal-finance-app/ui/components/button';
 import { Dialog } from '@personal-finance-app/ui/components/dialog';
 import { useMutation } from '@tanstack/react-query';
 import * as React from 'react';
+import { trpc } from '@/router';
 
 type DeletePotProps = {
   open: boolean;

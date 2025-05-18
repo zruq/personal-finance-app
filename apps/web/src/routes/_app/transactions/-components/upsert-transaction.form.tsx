@@ -1,7 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@personal-finance-app/ui/components/avatar';
 import { Button } from '@personal-finance-app/ui/components/button';
-import { Input } from '@personal-finance-app/ui/components/input';
 import { DatePicker } from '@personal-finance-app/ui/components/date-picker';
+import { Input } from '@personal-finance-app/ui/components/input';
 import {
   Select,
   SelectContent,
@@ -18,11 +23,6 @@ import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { QueryResult } from '../../-components/query-result';
 import { trpc } from '@/router';
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@personal-finance-app/ui/components/avatar';
 
 const transactionSchema = z.object({
   id: z.number().optional(),
@@ -232,7 +232,7 @@ export default function UpsertTransaction({
                       field.onChange(Number(value));
                     }}
                   >
-                    <label htmlFor="select-budget">
+                    <label htmlFor="select-party">
                       <div className="flex justify-between items-center pb-1">
                         <span className="text-grey-500 text-preset-5 font-bold">
                           Recipient / Sender
@@ -243,7 +243,7 @@ export default function UpsertTransaction({
                       </div>
                     </label>
 
-                    <SelectTrigger id="select-budget">
+                    <SelectTrigger id="select-party">
                       <SelectValue>
                         {party ? (
                           <div className="flex w-full flex-1 items-center gap-x-3">
@@ -261,7 +261,7 @@ export default function UpsertTransaction({
                           </div>
                         ) : (
                           <div className="text-grey-300 text-preset-4">
-                            Select a budget
+                            Select a recipient / sender
                           </div>
                         )}
                       </SelectValue>

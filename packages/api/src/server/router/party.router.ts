@@ -1,6 +1,6 @@
+import { eq } from '@personal-finance-app/db';
 import { party, theme } from '@personal-finance-app/db/schema';
 import { internalProcedure, protectedProcedure, router } from '../trpc';
-import { eq } from '@personal-finance-app/db';
 
 const partyRouter = router({
   all: protectedProcedure.query(({ ctx }) => {

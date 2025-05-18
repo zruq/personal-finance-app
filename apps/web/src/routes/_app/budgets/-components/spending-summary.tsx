@@ -28,9 +28,11 @@ export default function SpendingSummary({ budgets }: SpendingSummaryProps) {
           height={240}
           hole={
             <>
-              <p className="text-preset-1 pb-2">{formatCurrency(totalSpent)}</p>
+              <p className="text-preset-1 pb-2">
+                {formatCurrency(totalSpent, false)}
+              </p>
               <p className="text-preset-5 text-grey-500">
-                of {formatCurrency(limit)} limit
+                of {formatCurrency(limit, false)} limit
               </p>
             </>
           }

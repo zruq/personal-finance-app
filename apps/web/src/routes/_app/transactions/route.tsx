@@ -1,26 +1,26 @@
-import * as React from 'react';
-import { createFileRoute } from '@tanstack/react-router';
-import { PageHeader } from '../-components/page-header';
-import CreateTransaction from './-components/create-transaction';
-import { queryClient } from '@/clients/queryClient';
-import { trpc } from '@/router';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { Card } from '@personal-finance-app/ui/components/card';
-import { classNames } from '@personal-finance-app/ui/lib/utils';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@personal-finance-app/ui/components/avatar';
+import { Card } from '@personal-finance-app/ui/components/card';
 import {
   dateFormatOptions,
   formatCurrency,
 } from '@personal-finance-app/ui/lib/formatters';
+import { classNames } from '@personal-finance-app/ui/lib/utils';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { createFileRoute } from '@tanstack/react-router';
+import * as React from 'react';
 import { z } from 'zod';
-import Search from './-components/search';
-import SortBy from './-components/sort-by';
+import { PageHeader } from '../-components/page-header';
+import SortBy from '../-components/sort-by';
+import CreateTransaction from './-components/create-transaction';
 import FilterCategories from './-components/filter-categories';
 import Pagination from './-components/pagination';
+import Search from './-components/search';
+import { queryClient } from '@/clients/queryClient';
+import { trpc } from '@/router';
 
 export const sortByValues = [
   'latest',
@@ -89,7 +89,7 @@ function TransactionsPage() {
           <div className="flex items-center justify-between gap-x-6 pb-6">
             <Search />
             <div className="flex items-center gap-x-6">
-              <SortBy />
+              <SortBy sortBy={searchParams.sortBy} />
               <FilterCategories />
             </div>
           </div>

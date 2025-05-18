@@ -1,11 +1,11 @@
-import * as React from 'react';
-import { queryClient } from '@/clients/queryClient';
-import { trpc } from '@/router';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
+import * as React from 'react';
 import { PageHeader } from '../-components/page-header';
-import PotCard from './-components/pot-card';
 import CreatePot from './-components/create-pot';
+import PotCard from './-components/pot-card';
+import { queryClient } from '@/clients/queryClient';
+import { trpc } from '@/router';
 
 export const Route = createFileRoute('/_app/pots')({
   component: PotsPage,

@@ -1,15 +1,21 @@
 import RightArrowIcon from '@personal-finance-app/ui/icons/arrow-right.icon';
 import { classNames } from '@personal-finance-app/ui/lib/utils';
 import { Link } from '@tanstack/react-router';
-import type { RouterOutputs } from '@personal-finance-app/api/server';
 
+type PaginationProps = {
+  currentPage: number;
+  totalPages: number;
+  onClick?: (page: number) => void;
+};
 export default function Pagination({
   currentPage,
   totalPages,
-}: RouterOutputs['transactions']['many']['meta']) {
+  onClick,
+}: PaginationProps) {
   return (
     <div className="flex justify-between items-center gap-4">
       <Link
+        onClick={() => onClick?.(currentPage - 1)}
         to={'.'}
         search={(prev) => ({ ...prev, page: currentPage - 1 })}
         disabled={currentPage === 1}
@@ -27,38 +33,63 @@ export default function Pagination({
       <div className="flex items-center gap-2">
         {totalPages <= 6 ? (
           range(1, totalPages).map((page) => (
-            <PageLink key={page} page={page} currentPage={currentPage} />
+            <PageLink
+              onClick={onClick}
+              key={page}
+              page={page}
+              currentPage={currentPage}
+            />
           ))
         ) : currentPage <= 2 || totalPages - currentPage < 2 ? (
           <>
             {range(1, 3).map((page) => (
-              <PageLink key={page} page={page} currentPage={currentPage} />
+              <PageLink
+                onClick={onClick}
+                key={page}
+                page={page}
+                currentPage={currentPage}
+              />
             ))}
             <span className="size-10 flex items-center justify-center rounded-lg text-preset-4 transition duration-300 text-grey-900  border border-beige-500 bg-white">
               ...
             </span>
             {range(totalPages - 2, totalPages).map((page) => (
-              <PageLink key={page} page={page} currentPage={currentPage} />
+              <PageLink
+                onClick={onClick}
+                key={page}
+                page={page}
+                currentPage={currentPage}
+              />
             ))}
           </>
         ) : (
           <>
-            <PageLink page={1} currentPage={currentPage} />
+            <PageLink onClick={onClick} page={1} currentPage={currentPage} />
             <span className="size-10 flex items-center justify-center rounded-lg text-preset-4 transition duration-300 text-grey-900  border border-beige-500 bg-white">
               ...
             </span>
             {range(currentPage - 1, currentPage + 1).map((page) => (
-              <PageLink key={page} page={page} currentPage={currentPage} />
+              <PageLink
+                onClick={onClick}
+                key={page}
+                page={page}
+                currentPage={currentPage}
+              />
             ))}
             <span className="size-10 flex items-center justify-center rounded-lg text-preset-4 transition duration-300 text-grey-900  border border-beige-500 bg-white">
               ...
             </span>
-            <PageLink page={totalPages} currentPage={currentPage} />
+            <PageLink
+              onClick={onClick}
+              page={totalPages}
+              currentPage={currentPage}
+            />
           </>
         )}
       </div>
 
       <Link
+        onClick={() => onClick?.(currentPage + 1)}
         to={'.'}
         search={(prev) => ({ ...prev, page: currentPage + 1 })}
         disabled={currentPage === totalPages}
@@ -79,13 +110,16 @@ export default function Pagination({
 function PageLink({
   currentPage,
   page,
+  onClick,
 }: {
   page: number;
   currentPage: number;
+  onClick?: (page: number) => void;
 }) {
   return (
     <Link
       to={'.'}
+      onClick={() => onClick?.(page)}
       search={(prev) => ({ ...prev, page })}
       className={classNames(
         'size-10 flex items-center justify-center rounded-lg text-preset-4 transition duration-300',

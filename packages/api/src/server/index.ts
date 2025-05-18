@@ -1,12 +1,13 @@
 import type { AuthInstance } from '@personal-finance-app/auth/server';
 import type { DatabaseInstance } from '@personal-finance-app/db/client';
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
+import billRouter from './router/bill.router';
 import budgetRouter from './router/budget.router';
-import themeRouter from './router/theme.router';
-import { createTRPCContext as createTRPCContextInternal, router } from './trpc';
-import potRouter from './router/pot.router';
-import transactionRouter from './router/transaction.router';
 import partyRouter from './router/party.router';
+import potRouter from './router/pot.router';
+import themeRouter from './router/theme.router';
+import transactionRouter from './router/transaction.router';
+import { createTRPCContext as createTRPCContextInternal, router } from './trpc';
 
 export const appRouter = router({
   budgets: budgetRouter,
@@ -14,6 +15,7 @@ export const appRouter = router({
   pots: potRouter,
   transactions: transactionRouter,
   parties: partyRouter,
+  bills: billRouter,
 });
 
 export const createApi = ({
