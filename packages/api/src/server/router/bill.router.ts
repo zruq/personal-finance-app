@@ -120,7 +120,7 @@ const billRouter = router({
             );
           }
         }
-        const instancesEndDate = endDate ?? new Date();
+        const instancesEndDate = new Date();
         const newInstances: Array<{
           billId: number;
           date: Date;

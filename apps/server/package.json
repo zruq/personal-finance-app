@@ -22,6 +22,7 @@
     "@personal-finance-app/auth": "workspace:*",
     "@personal-finance-app/db": "workspace:*",
     "hono": "catalog:",
+    "node-cron": "^4.0.5",
     "zod": "catalog:"
   },
   "devDependencies": {

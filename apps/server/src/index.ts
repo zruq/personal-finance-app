@@ -7,6 +7,7 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import { env } from './env';
+import './create-bills-instances.job';
 
 const trustedOrigins = [env.PUBLIC_WEB_URL].map((url) => new URL(url).origin);
 
@@ -16,7 +17,7 @@ const wildcardPath = {
   TRPC: '/trpc/*',
 } as const;
 
-const db = createDb({ databaseUrl: env.SERVER_POSTGRES_URL });
+export const db = createDb({ databaseUrl: env.SERVER_POSTGRES_URL });
 const auth = createAuth({
   authSecret: env.SERVER_AUTH_SECRET,
   db,
