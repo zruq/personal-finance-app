@@ -1,7 +1,7 @@
-import cron from 'node-cron';
-import { db } from '.';
-import { bill, billInstance } from '@personal-finance-app/db/schema';
 import { eq, and, gt, or, sql, isNull, desc } from '@personal-finance-app/db';
+import { bill, billInstance } from '@personal-finance-app/db/schema';
+import * as cron from 'node-cron';
+import { db } from '.';
 
 cron.schedule('0 0 * * *', async () => {
   const lastBillInstanceDateSubQuery = db
