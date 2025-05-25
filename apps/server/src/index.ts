@@ -7,7 +7,7 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import { env } from './env';
-import './create-bills-instances.job';
+// import './create-bills-instances.job';
 
 const trustedOrigins = [env.PUBLIC_WEB_URL].map((url) => new URL(url).origin);
 
