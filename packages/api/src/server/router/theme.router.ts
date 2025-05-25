@@ -17,7 +17,6 @@ const themeRouter = router({
         { name: 'brown', color: '#93674F' },
         { name: 'magenta', color: '#934F6F' },
         { name: 'blue', color: '#3F82B2' },
-        { name: 'blue', color: '#3F82B2' },
         { name: 'navy grey', color: '#97A0AC' },
         { name: 'army grey', color: '#7F9161' },
         { name: 'gold', color: '#CAB361' },
