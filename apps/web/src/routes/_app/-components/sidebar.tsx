@@ -143,20 +143,40 @@ const SidebarDesktop = () => {
             );
           })}
         </ul>
-        <button
-          onClick={() => setIsMinimized((v) => !v)}
-          className="group text-preset-3 text-grey-300 flex cursor-pointer items-center gap-x-4 pb-16 hover:text-white"
-        >
-          <ArrowLeftIcon
-            className={classNames(
-              'fill-grey-300 size-6 group-hover:fill-white',
-              { 'rotate-180': isMinimized },
-            )}
-          />
-          <span className={classNames({ 'sr-only': isMinimized })}>
-            Minimize Menu
-          </span>
-        </button>
+        <div className="pb-16 space-y-4">
+          <button
+            onClick={() => {
+              queryClient.clear();
+              authClient.signOut();
+            }}
+            className="group text-preset-3 text-grey-300 flex cursor-pointer items-center gap-x-4 hover:text-white"
+          >
+            <SignOutIcon
+              className={classNames(
+                'fill-grey-300 size-6 group-hover:fill-white',
+                { 'rotate-180': isMinimized },
+              )}
+            />
+            <span className={classNames({ 'sr-only': isMinimized })}>
+              Sign out
+            </span>
+          </button>
+
+          <button
+            onClick={() => setIsMinimized((v) => !v)}
+            className="group text-preset-3 text-grey-300 flex cursor-pointer items-center gap-x-4 hover:text-white"
+          >
+            <ArrowLeftIcon
+              className={classNames(
+                'fill-grey-300 size-6 group-hover:fill-white',
+                { 'rotate-180': isMinimized },
+              )}
+            />
+            <span className={classNames({ 'sr-only': isMinimized })}>
+              Minimize Menu
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   );

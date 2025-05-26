@@ -21,6 +21,7 @@
     "@hookform/resolvers": "^5.0.1",
     "@personal-finance-app/auth": "workspace:*",
     "@personal-finance-app/ui": "workspace:*",
+    "@phosphor-icons/react": "^2.1.10",
     "@radix-ui/react-icons": "catalog:",
     "@tailwindcss/vite": "catalog:",
     "@tanstack/match-sorter-utils": "^8.19.4",

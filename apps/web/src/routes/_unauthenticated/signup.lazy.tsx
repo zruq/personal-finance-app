@@ -1,41 +1,74 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@personal-finance-app/ui/components/button';
 import { Input } from '@personal-finance-app/ui/components/input';
-import { createLazyFileRoute, Link } from '@tanstack/react-router';
+import { createLazyFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { PasswordInput } from './-components/password-input';
-import { authClient } from '@/clients/authClient';
+import { authClient, getFriendlyAuthErrorMessage } from '@/clients/authClient';
 
 export const Route = createLazyFileRoute('/_unauthenticated/signup')({
   component: RouteComponent,
 });
 
 const signupSchema = z.object({
-  name: z.string().trim().min(1),
-  email: z.string().trim().toLowerCase().email(),
-  password: z.string().min(8),
+  name: z.string().trim().min(1, 'Name is required'),
+  email: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .email('Please enter a valid email address'),
+  password: z.string().min(8, 'Password must be at least 8 characters long'),
 });
 
 type SignupFormData = z.infer<typeof signupSchema>;
 
 function RouteComponent() {
-  const { handleSubmit, register } = useForm<SignupFormData>({
-    resolver: zodResolver(signupSchema),
-  });
+  const { handleSubmit, register, formState, setError } =
+    useForm<SignupFormData>({
+      resolver: zodResolver(signupSchema),
+    });
+  const navigate = useNavigate();
   const onSubmit: SubmitHandler<SignupFormData> = async (data) => {
-    await authClient.signUp.email(data);
+    await authClient.signUp.email(data, {
+      onSuccess: () => {
+        navigate({ to: '/' });
+      },
+      onError: (context) => {
+        setError('root', {
+          message: getFriendlyAuthErrorMessage(context.error.code),
+        });
+      },
+    });
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-      <h1 className="text-preset-1 text-grey-900 pb-8">Sign up</h1>
+      <div className="pb-8 space-y-2">
+        <h1 className="text-preset-1 text-grey-900">Sign up</h1>
+        {formState.errors.root?.message && (
+          <p className="text-preset-5 text-red">
+            {formState.errors.root.message}
+          </p>
+        )}
+      </div>
       <div className="space-y-4 pb-8">
-        <Input {...register('name')} type="name" label="Name" />
-        <Input {...register('email')} type="email" label="Email" />
+        <Input
+          {...register('name')}
+          type="name"
+          label="Name"
+          error={formState.errors.name?.message}
+        />
+        <Input
+          {...register('email')}
+          type="email"
+          label="Email"
+          error={formState.errors.email?.message}
+        />
         <PasswordInput
           {...register('password')}
           label="Create Password"
           helperText="Passwords must be at least 8 characters"
+          error={formState.errors.password?.message}
         />
       </div>
       <Button className="w-full">Create Account</Button>

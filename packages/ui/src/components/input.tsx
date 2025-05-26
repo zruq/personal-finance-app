@@ -7,6 +7,7 @@ type InputProps = React.ComponentProps<'input'> & {
   suffixNode?: React.ReactNode;
   prefixNode?: React.ReactNode;
   hideLabel?: boolean;
+  error?: string;
 };
 
 function Input({
@@ -18,6 +19,7 @@ function Input({
   prefixNode,
   id,
   hideLabel,
+  error,
   ...props
 }: InputProps) {
   const genId = React.useId();
@@ -29,6 +31,7 @@ function Input({
         className={classNames(
           'text-preset-5 text-grey-500 block pb-1 font-bold',
           { 'sr-only': hideLabel },
+          { 'text-red': error },
         )}
       >
         {label}
@@ -46,10 +49,22 @@ function Input({
             'border-beige-500 hover:border-grey-500 focus:border-grey-900 text-preset-4 placeholder:text-beige-500 rounded-lg text-grey-900 w-full border px-5 py-3 outline-none',
             { 'pl-10': prefixNode },
             { 'pr-10': suffixNode },
+            { 'border-red focus:border-red hover:border-red': error },
             className,
           )}
           {...props}
         />
+        {error && (
+          <p
+            className={classNames(
+              'absolute top-[50%] right-5 text-red-500 text-preset-5 -translate-y-[45%]',
+              { 'right-10 -translate-y-2.5': suffixNode },
+            )}
+          >
+            {error}
+          </p>
+        )}
+
         {suffixNode && (
           <div className="absolute top-[50%] right-5 -translate-y-[45%]">
             {suffixNode}
