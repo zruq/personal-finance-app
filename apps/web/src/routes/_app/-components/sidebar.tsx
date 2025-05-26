@@ -1,4 +1,5 @@
 import { classNames } from '@personal-finance-app/ui/lib/utils';
+import { SignOutIcon } from '@phosphor-icons/react/dist/ssr/SignOut';
 import { Link, type LinkProps } from '@tanstack/react-router';
 import React, { useState } from 'react';
 import ArrowLeftIcon from '../-icons/arrow-left.icon';
@@ -7,6 +8,8 @@ import HalfTicketIcon from '../-icons/half-ticket.icon';
 import HomeIcon from '../-icons/home.icon';
 import PieChartIcon from '../-icons/pie-chart.icon';
 import PotIcon from '../-icons/pot.icon';
+import { authClient } from '@/clients/authClient';
+import { queryClient } from '@/clients/queryClient';
 
 const SIDEBAR_ITEMS: Array<{
   name: string;
