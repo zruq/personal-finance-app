@@ -22,7 +22,7 @@ export default function TransactionsOverview({
 }: TransactionsOverviewProps) {
   return (
     <Card>
-      <div className="flex items-center justify-between pb-5">
+      <div className="flex items-center justify-between pb-8">
         <h2 className="text-preset-2">Transactions</h2>
         <Link
           className="text-grey-500 fill-grey-500 hover:text-grey-900 hover:fill-grey-900 text-preset-4 flex items-center gap-x-3 transition duration-300"

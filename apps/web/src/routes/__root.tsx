@@ -5,5 +5,9 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
-  return <Outlet />;
+  return (
+    <div className="bg-beige-100">
+      <Outlet />
+    </div>
+  );
 }

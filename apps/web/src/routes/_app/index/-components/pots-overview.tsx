@@ -25,6 +25,7 @@ export default function PotsOverview({ pots }: PotsOverviewProps) {
       <div className="md:grid md:grid-cols-2 md:items-center md:gap-x-5">
         <div className="bg-beige-100 flex items-center gap-x-4 rounded-lg p-4">
           <svg
+            className="shrink-0"
             width="40"
             height="40"
             viewBox="0 0 40 40"

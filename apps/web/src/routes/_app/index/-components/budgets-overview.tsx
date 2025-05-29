@@ -5,16 +5,22 @@ import type { RouterOutputs } from '@personal-finance-app/api/server';
 import { DonutChart } from '../../-components/donut-chart';
 import RightArrowFilled from '../../-icons/right-arrow-filled.icon';
 
-type BudgetsOverviewProps = { budgets: RouterOutputs['budgets']['all'] };
+type BudgetsOverviewProps = {
+  className?: string;
+  budgets: RouterOutputs['budgets']['all'];
+};
 
-export default function BudgetsOverview({ budgets }: BudgetsOverviewProps) {
+export default function BudgetsOverview({
+  budgets,
+  className,
+}: BudgetsOverviewProps) {
   const totalSpent = budgets.reduce((acc, budget) => acc + budget.spent, 0);
   const maximumSpend = budgets.reduce(
     (acc, budget) => acc + budget.maximumSpend,
     0,
   );
   return (
-    <Card>
+    <Card className={className}>
       <div className="flex items-center justify-between pb-5">
         <h2 className="text-preset-2">Budgets</h2>
         <Link
@@ -27,45 +33,49 @@ export default function BudgetsOverview({ budgets }: BudgetsOverviewProps) {
         </Link>
       </div>
 
-      <div className="flex items-center justify-center px-8 py-5">
-        <DonutChart
-          data={budgets.map((budget) => ({
-            name: budget.name,
-            value: budget.spent,
-            color: budget.theme.color,
-          }))}
-          width={240}
-          height={240}
-          hole={
-            <>
-              <p className="text-preset-1 pb-2">
-                {formatCurrency(totalSpent, false)}
-              </p>
-              <p className="text-preset-5 text-grey-500">
-                of {formatCurrency(maximumSpend, false)} limit
-              </p>
-            </>
-          }
-        />
-      </div>
+      <div className="md:flex md:justify-center md:items-center md:gap-x-4 py-2">
+        <div className="flex justify-center items-center md:flex-1">
+          <DonutChart
+            data={budgets.map((budget) => ({
+              name: budget.name,
+              value: budget.spent,
+              color: budget.theme.color,
+            }))}
+            width={240}
+            height={240}
+            hole={
+              <>
+                <p className="text-preset-1 pb-2">
+                  {formatCurrency(totalSpent, false)}
+                </p>
+                <p className="text-preset-5 text-grey-500">
+                  of {formatCurrency(maximumSpend, false)} limit
+                </p>
+              </>
+            }
+          />
+        </div>
 
-      <ul className="grid grid-cols-2 gap-4 pt-5 md:pt-0">
-        {budgets.map((budget) => (
-          <li key={budget.id} className="flex items-center gap-x-4">
-            <div
-              style={{ backgroundColor: budget.theme.color }}
-              className="h-11 w-1 rounded-full"
-            ></div>
+        <ul className="grid grid-cols-2 gap-4 pt-5 md:pt-0 md:grid-cols-1">
+          {budgets.map((budget) => (
+            <li key={budget.id} className="flex items-center gap-x-4">
+              <div
+                style={{ backgroundColor: budget.theme.color }}
+                className="h-11 w-1 rounded-full"
+              ></div>
 
-            <div className="flex flex-col items-start gap-y-1">
-              <span className="text-preset-5 text-grey-500">{budget.name}</span>
-              <div className="text-preset-4 font-bold">
-                {formatCurrency(budget.spent)}
+              <div className="flex flex-col items-start gap-y-1">
+                <span className="text-preset-5 text-grey-500 capitalize">
+                  {budget.name}
+                </span>
+                <div className="text-preset-4 font-bold">
+                  {formatCurrency(budget.spent)}
+                </div>
               </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
     </Card>
   );
 }
