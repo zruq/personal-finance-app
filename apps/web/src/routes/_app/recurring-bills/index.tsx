@@ -23,7 +23,7 @@ export const Route = createFileRoute('/_app/recurring-bills/')({
 function BillsPage() {
   const [showCreateBill, setShowCreateBill] = React.useState(false);
   return (
-    <div>
+    <div className="space-y-8">
       <PageHeader
         title="Recurring Bills"
         action={{
@@ -33,8 +33,8 @@ function BillsPage() {
           },
         }}
       />
-      <div className="flex gap-x-6">
-        <div className="flex-1">
+      <div className="xl:flex xl:gap-x-6 max-xl:space-y-6">
+        <div className="xl:flex-1">
           <Summary />
         </div>
         <BillsTable />

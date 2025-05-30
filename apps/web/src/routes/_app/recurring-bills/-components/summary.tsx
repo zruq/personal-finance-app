@@ -6,8 +6,8 @@ export default function Summary() {
   const { data: summary } = useSuspenseQuery(trpc.bills.summary.queryOptions());
 
   return (
-    <div className="space-y-6  xl:w-[337px]">
-      <div className="bg-grey-900 text-white p-6 drop-shadow space-y-8 rounded-xl">
+    <div className="min-md:max-xl:grid min-md:max-xl:grid-cols-2 min-md:max-xl:gap-x-6 xl:block space-y-6 xl:w-[337px]">
+      <div className="max-md:flex max-md:items-center max-md:gap-x-5 px-5 py-6 min-md:max-xl:h-full bg-grey-900 text-white md:p-6 md:space-y-8 rounded-xl">
         <svg
           width="40"
           height="40"
@@ -27,7 +27,7 @@ export default function Summary() {
           </p>
         </div>
       </div>
-      <div className="bg-white p-5 drop-shadow space-y-5 rounded-xl">
+      <div className="bg-white p-5 space-y-5 rounded-xl">
         <h3 className="text-grey-900 text-preset-3">Summary</h3>
         <div className="space-y-4">
           <div className="pb-4 border-[#696868]/15 border-b flex justify-between items-center">
