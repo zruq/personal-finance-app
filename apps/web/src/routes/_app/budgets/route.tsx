@@ -10,7 +10,13 @@ import { trpc } from '@/router';
 
 export const Route = createFileRoute('/_app/budgets')({
   component: RouteComponent,
-  loader: () => queryClient.ensureQueryData(trpc.budgets.all.queryOptions()),
+  loader: () => {
+    queryClient.ensureQueryData(trpc.budgets.all.queryOptions());
+    queryClient.ensureQueryData({
+      ...trpc.themes.all.queryOptions(),
+      staleTime: Infinity,
+    });
+  },
 });
 
 function RouteComponent() {
