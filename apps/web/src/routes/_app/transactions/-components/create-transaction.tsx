@@ -29,7 +29,7 @@ export default function CreateTransaction({
       open={open}
       onOpenChange={onOpenChange}
       title="Add New Transaction"
-      description="TODO"
+      description="Log your transactions to keep track of your income and expenses. This helps you monitor your financial activities and stay on budget."
     >
       <UpsertTransaction
         onSubmit={async (data) => {

@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@personal-finance-app/ui/components/button';
 import { Dialog } from '@personal-finance-app/ui/components/dialog';
 import { Input } from '@personal-finance-app/ui/components/input';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import type { RouterOutputs } from '@personal-finance-app/api/server';
@@ -47,6 +47,7 @@ export default function AddToPot({
   onOpenChange,
 }: AddToPotProps) {
   const factor = type === 'withdraw' ? -1 : 1;
+  const queryClient = useQueryClient();
   const { mutateAsync } = useMutation(trpc.pots.addTo.mutationOptions());
   const { register, handleSubmit, watch, reset } = useForm<TransactionFormData>(
     {
@@ -58,7 +59,27 @@ export default function AddToPot({
   const amount = Number(watch('amount'));
 
   const onSubmit: SubmitHandler<TransactionFormData> = async (data) => {
-    await mutateAsync({ potId: pot.id, amount: factor * data.amount });
+    await mutateAsync(
+      { potId: pot.id, amount: factor * data.amount },
+      {
+        onSuccess() {
+          queryClient.setQueryData(
+            trpc.pots.all.queryOptions().queryKey,
+            (old) =>
+              old?.map((p) =>
+                pot.id === p.id
+                  ? { ...p, totalSaved: p.totalSaved + factor * data.amount }
+                  : p,
+              ),
+          );
+        },
+        onSettled() {
+          queryClient.invalidateQueries({
+            queryKey: [trpc.pots.all.queryKey, trpc.transactions.many.queryKey],
+          });
+        },
+      },
+    );
     reset();
     onOpenChange(false);
   };

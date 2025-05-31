@@ -16,7 +16,7 @@ export default function CreateBill({ open, onOpenChange }: CreateBillProps) {
       open={open}
       onOpenChange={onOpenChange}
       title="Add New Bill"
-      description="TODO"
+      description="Set up recurring bills to manage your regular expenses. This ensures you stay on top of your payments and avoid any missed bills."
     >
       <UpsertBill
         onSubmit={async (data) => {

@@ -1,6 +1,6 @@
 import { Button } from '@personal-finance-app/ui/components/button';
 import { Dialog } from '@personal-finance-app/ui/components/dialog';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import * as React from 'react';
 import { trpc } from '@/router';
 
@@ -11,7 +11,16 @@ type DeletePotProps = {
 };
 
 export default function DeletePot({ open, onOpenChange, pot }: DeletePotProps) {
-  const { mutate } = useMutation(trpc.pots.delete.mutationOptions());
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation(
+    trpc.pots.delete.mutationOptions({
+      onSuccess(data) {
+        queryClient.setQueryData(trpc.pots.all.queryOptions().queryKey, (old) =>
+          old?.filter((pot) => pot.id !== data.id),
+        );
+      },
+    }),
+  );
 
   return (
     <Dialog

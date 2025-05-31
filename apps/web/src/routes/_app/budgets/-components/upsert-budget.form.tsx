@@ -19,8 +19,8 @@ import { trpc } from '@/router';
 import { CircleNotchIcon } from '@phosphor-icons/react/dist/ssr/CircleNotch';
 
 const budgetSchema = z.object({
-  name: z.string().trim().min(1),
-  maximumSpend: z.number({ coerce: true }).positive(),
+  name: z.string().trim().min(1,"Budget name can't be empty. Please enter a name."),
+  maximumSpend: z.number({ coerce: true }).positive("Maximum spend must be greater than zero."),
   themeId: z.number(),
 });
 

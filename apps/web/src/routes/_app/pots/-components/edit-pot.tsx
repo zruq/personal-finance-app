@@ -1,5 +1,5 @@
 import { Dialog } from '@personal-finance-app/ui/components/dialog';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { RouterOutputs } from '@personal-finance-app/api/server';
 import UpsertPot from './upsert-pot.form';
 import { trpc } from '@/router';
@@ -20,7 +20,16 @@ export default function EditPot({
   pot,
   usedThemesIds,
 }: EditPotProps) {
-  const { mutateAsync } = useMutation(trpc.pots.upsert.mutationOptions());
+  const queryClient = useQueryClient();
+  const { mutateAsync } = useMutation(
+    trpc.pots.upsert.mutationOptions({
+      onSuccess(data) {
+        queryClient.setQueryData(trpc.pots.all.queryOptions().queryKey, (old) =>
+          old?.map((pot) => (pot.id === data.id ? { ...pot, ...data } : pot)),
+        );
+      },
+    }),
+  );
 
   return (
     <Dialog

@@ -8,6 +8,7 @@ type InputProps = React.ComponentProps<'input'> & {
   prefixNode?: React.ReactNode;
   hideLabel?: boolean;
   error?: string;
+  helperTextClassName?: string;
 };
 
 function Input({
@@ -20,6 +21,7 @@ function Input({
   id,
   hideLabel,
   error,
+  helperTextClassName,
   ...props
 }: InputProps) {
   const genId = React.useId();
@@ -57,7 +59,7 @@ function Input({
         {error && (
           <p
             className={classNames(
-              'absolute top-[50%] right-5 text-red-500 text-preset-5 -translate-y-[45%]',
+              'bg-white px-2 absolute top-[50%] right-5 text-red-500 text-preset-5 -translate-y-[45%]',
               { 'right-10 -translate-y-2.5': suffixNode },
             )}
           >
@@ -73,7 +75,12 @@ function Input({
       </div>
 
       {helperText && (
-        <p className="text-preset-5 text-grey-500 flex justify-end pt-5">
+        <p
+          className={classNames(
+            'text-preset-5 text-grey-500 flex justify-end pt-5',
+            helperTextClassName,
+          )}
+        >
           {helperText}
         </p>
       )}

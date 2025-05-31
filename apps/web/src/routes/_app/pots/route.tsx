@@ -9,7 +9,13 @@ import { trpc } from '@/router';
 
 export const Route = createFileRoute('/_app/pots')({
   component: PotsPage,
-  loader: () => queryClient.ensureQueryData(trpc.pots.all.queryOptions()),
+  loader: () => {
+    queryClient.ensureQueryData(trpc.pots.all.queryOptions());
+    queryClient.ensureQueryData({
+      ...trpc.themes.all.queryOptions(),
+      staleTime: Infinity,
+    });
+  },
 });
 
 function PotsPage() {
